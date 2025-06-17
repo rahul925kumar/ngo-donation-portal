@@ -9,10 +9,18 @@
     <div class="card-header">
         <h5 class="mb-0">Users List</h5>
     </div>
-    <div class="mb-3 text-end">
-        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addUserModal">
+    <div class="mb-3 text-end" style=" margin-top: 10px;">
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addUserModal" style="
+        float: left;
+    ">
             + Add User
         </button>
+        <!-- Date Range Filter -->
+        <div class="d-inline-block me-2">
+            <input type="date" id="startDate" class="form-control d-inline-block" style="width: 150px;">
+            <span class="mx-2">to</span>
+            <input type="date" id="endDate" class="form-control d-inline-block" style="width: 150px;">
+        </div>
         <!-- CSV Export Button -->
         <button id="exportCsv" class="btn btn-success">
             Export to CSV
@@ -80,17 +88,40 @@
       </div>
       
       <div class="modal-body">
-        <form action="{{ route('admin.users.store') }}" method="POST">
+        <form action="{{ route('admin.users.store') }}" method="POST" id="addUserForm">
           @csrf
 
           <div class="row mb-3">
-              <div class="col-md-6">
-                  <label for="name" class="form-label">Name</label>
-                  <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                  @error('name')
+              <div class="col-md-4">
+                  <label for="salutation" class="form-label">Salutation</label>
+                  <select class="form-control @error('salutation') is-invalid @enderror" id="salutation" name="salutation" required>
+                      <option value="">Select</option>
+                      <option value="Mr">Mr</option>
+                      <option value="Mrs">Mrs</option>
+                      <option value="Ms">Ms</option>
+                      <option value="Dr">Dr</option>
+                  </select>
+                  @error('salutation')
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
               </div>
+              <div class="col-md-4">
+                  <label for="first_name" class="form-label">First Name</label>
+                  <input type="text" class="form-control @error('first_name') is-invalid @enderror" id="first_name" name="first_name" value="{{ old('first_name') }}" required>
+                  @error('first_name')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
+              <div class="col-md-4">
+                  <label for="last_name" class="form-label">Last Name</label>
+                  <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name" name="last_name" value="{{ old('last_name') }}" required>
+                  @error('last_name')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
+          </div>
+
+          <div class="row mb-3">
               <div class="col-md-6">
                   <label for="email" class="form-label">Email</label>
                   <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
@@ -98,9 +129,6 @@
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
               </div>
-          </div>
-
-          <div class="row mb-3">
               <div class="col-md-6">
                   <label for="phone_number" class="form-label">Phone Number</label>
                   <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" value="{{ old('phone_number') }}" required>
@@ -108,10 +136,24 @@
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
               </div>
+          </div>
+
+          <div class="row mb-3">
               <div class="col-md-6">
-                  <label for="state" class="form-label">State</label>
-                  <input type="text" class="form-control @error('state') is-invalid @enderror" id="state" name="state" value="{{ old('state') }}" required>
-                  @error('state')
+                  <label for="dob" class="form-label">Date of Birth</label>
+                  <input type="date" class="form-control @error('dob') is-invalid @enderror" id="dob" name="dob" value="{{ old('dob') }}" required>
+                  @error('dob')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
+              <div class="col-md-6">
+                  <label for="user_type" class="form-label">User Type</label>
+                  <select class="form-control @error('user_type') is-invalid @enderror" id="user_type" name="user_type" required>
+                      <option value="">Select Type</option>
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                  </select>
+                  @error('user_type')
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
               </div>
@@ -119,16 +161,33 @@
 
           <div class="row mb-3">
               <div class="col-md-6">
+                  <label for="state" class="form-label">State</label>
+                  <input type="text" class="form-control @error('state') is-invalid @enderror" id="state" name="state" value="{{ old('state') }}" required>
+                  @error('state')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
+              <div class="col-md-6">
                   <label for="city" class="form-label">City</label>
                   <input type="text" class="form-control @error('city') is-invalid @enderror" id="city" name="city" value="{{ old('city') }}" required>
                   @error('city')
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
               </div>
+          </div>
+
+          <div class="row mb-3">
               <div class="col-md-6">
                   <label for="pincode" class="form-label">Pincode</label>
                   <input type="text" class="form-control @error('pincode') is-invalid @enderror" id="pincode" name="pincode" value="{{ old('pincode') }}" required>
                   @error('pincode')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
+              <div class="col-md-6">
+                  <label for="address" class="form-label">Address</label>
+                  <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="1">{{ old('address') }}</textarea>
+                  @error('address')
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
               </div>
@@ -154,20 +213,68 @@
     $(document).ready(function() {
         // Initialize the DataTable
         var usersTable = $('#usersTable').DataTable({
-            order: [] // Disable initial sorting
+            order: [], // Disable initial sorting
+            columns: [
+                { data: 'name' },
+                { data: 'email' },
+                { data: 'phone_number' },
+                { data: 'location' },
+                { data: 'created_at' } // Add created_at column
+            ]
         });
+
+        // Set default dates (last 30 days)
+        var today = new Date();
+        var thirtyDaysAgo = new Date(today);
+        thirtyDaysAgo.setDate(today.getDate() - 30);
+        
+        $('#startDate').val(thirtyDaysAgo.toISOString().split('T')[0]);
+        $('#endDate').val(today.toISOString().split('T')[0]);
 
         // Export to CSV functionality
         $('#exportCsv').on('click', function() {
-            // Get the data from the table
-            var data = usersTable.rows().data();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates');
+                return;
+            }
+
+            // Get all data from the table
+            var tableData = usersTable.rows().data().toArray();
+            var filteredData = [];
+
+            // Filter data based on date range
+            tableData.forEach(function(row) {
+                var rowDate = new Date(row.created_at);
+                var start = new Date(startDate);
+                var end = new Date(endDate);
+                end.setHours(23, 59, 59, 999); // Set to end of day
+
+                if (rowDate >= start && rowDate <= end) {
+                    filteredData.push(row);
+                }
+            });
+
+            if (filteredData.length === 0) {
+                alert('No data found for the selected date range');
+                return;
+            }
 
             // Prepare the CSV header
-            var csvContent = "Name,Email,Phone,Location\n";
+            var csvContent = "Name,Email,Phone,Location,Created Date\n";
 
-            // Loop through the data and append each row to the CSV content
-            data.each(function(row) {
-                csvContent += row[0] + "," + row[1] + "," + row[2] + "," + row[3] + "\n";
+            // Loop through the filtered data and append each row to the CSV content
+            filteredData.forEach(function(row) {
+                // Escape fields that might contain commas
+                var name = '"' + (row.name || '').replace(/"/g, '""') + '"';
+                var email = '"' + (row.email || '').replace(/"/g, '""') + '"';
+                var phone = '"' + (row.phone_number || '').replace(/"/g, '""') + '"';
+                var location = '"' + (row.location || '').replace(/"/g, '""') + '"';
+                var createdDate = '"' + (row.created_at || '').replace(/"/g, '""') + '"';
+
+                csvContent += name + "," + email + "," + phone + "," + location + "," + createdDate + "\n";
             });
 
             // Create a Blob object from the CSV content
@@ -177,11 +284,22 @@
             // Create a link and simulate a click to trigger the download
             var link = document.createElement("a");
             link.setAttribute("href", url);
-            link.setAttribute("download", "users_list.csv");
+            link.setAttribute("download", "users_list_" + startDate + "_to_" + endDate + ".csv");
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        });
+
+        // Date range validation
+        $('#startDate, #endDate').on('change', function() {
+            var start = new Date($('#startDate').val());
+            var end = new Date($('#endDate').val());
+
+            if (start > end) {
+                alert('Start date cannot be greater than end date');
+                $(this).val('');
+            }
         });
     });
 

@@ -66,7 +66,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label">Email </label>
                             <input type="email" class="form-control" id="email" name="email">
                         </div>
 
@@ -76,13 +76,13 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="pan" class="form-label">PAN <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="pan" name="pan" required>
+                            <label for="pan" class="form-label">PAN</label>
+                            <input type="text" class="form-control" id="pan" name="pan">
                         </div>
 
                         <div class="col-md-6">
-                            <label for="adhar_card" class="form-label">Aadhar Card Number <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="adhar_card" name="adhar_card" required>
+                            <label for="adhar_card" class="form-label">Aadhar Card Number</label>
+                            <input type="text" class="form-control" id="adhar_card" name="adhar_card">
                         </div>
 
                         <div class="col-md-6">

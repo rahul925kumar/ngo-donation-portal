@@ -33,6 +33,93 @@
             color: black !important;
         }
     </style>
+    <style>
+        .dashboard-header {
+            background: #4B2AAD;
+            color: #fff;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .dashboard-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            flex: 1;
+            border-radius: 1.2rem;
+            box-shadow: 0 2px 12px rgba(75,42,173,0.07);
+            padding: 2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(90deg, #f3eaff 60%, #ede7f6 100%);
+            position: relative;
+        }
+        .stat-card .icon {
+            font-size: 2.5rem;
+            margin-right: 1.2rem;
+            color: #4B2AAD;
+        }
+        .stat-card .stat-label {
+            font-size: 1.1rem;
+            color: #888;
+            margin-bottom: 0.2rem;
+        }
+        .stat-card .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #222;
+        }
+        .stat-card.wallet { background: linear-gradient(90deg, #f3eaff 60%, #ede7f6 100%); }
+        .stat-card.count { background: linear-gradient(90deg, #eafff3 60%, #e7f6ed 100%); }
+        .stat-card.volume { background: linear-gradient(90deg, #fff7ea 60%, #f6f0e7 100%); }
+        .stat-card .lock-icon, .stat-card .cart-icon { position: absolute; right: 1.5rem; top: 1.5rem; font-size: 1.5rem; color: #b39ddb; }
+        .stat-card .cart-icon { color: #4caf50; }
+        .stat-card .lock-icon { color: #b39ddb; }
+        .dashboard-table-card {
+            border-radius: 1.2rem;
+            box-shadow: 0 2px 12px rgba(75,42,173,0.07);
+            margin-top: 2rem;
+            background: #fff;
+        }
+        .dashboard-table-card .card-header {
+            background: none;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #4B2AAD;
+        }
+        .dashboard-table-card .table {
+            margin-bottom: 0;
+        }
+        .badge-success { background: #4caf50 !important; color: #fff; }
+        .badge-warning { background: #ffb300 !important; color: #fff; }
+        .badge-danger { background: #f44336 !important; color: #fff; }
+        .badge-info { background: #7c4dff !important; color: #fff; }
+        .txn-status-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        .txn-status-row .status-box {
+            flex: 1;
+            text-align: center;
+            padding: 0.7rem 0;
+            border-radius: 2rem;
+            margin: 0 0.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .status-success { background: #e8f5e9; color: #388e3c; }
+        .status-pending { background: #fffde7; color: #fbc02d; }
+        .status-failed { background: #ffebee; color: #d32f2f; }
+        .status-refund { background: #ede7f6; color: #7c4dff; }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -71,8 +158,8 @@
                             </a>
                         </li>
                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}" href="{{ route('admin.settings') }}">
-                                <i class="fa fa-cog" aria-hidden="true"></i>Settings
+                            <a class="nav-link {{ request()->routeIs('admin.settings.show') ? 'active' : '' }}" href="{{ route('admin.settings.show') }}">
+                                <i class="fa fa-cog"></i> Settings
                             </a>
                         </li>
                         <li class="nav-item">
@@ -114,6 +201,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <!-- DataTables Buttons -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <!-- PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     @stack('scripts')
 </body>
 </html> 

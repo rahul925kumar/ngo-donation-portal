@@ -17,16 +17,37 @@ class AdminController extends Controller
     {
         $totalUsers = User::count();
         $totalDonations = DB::table('donation')->count();
-        $totalCelebrations = Celebration::count();
+        $certificateDonationsCount = DB::table('certificate_donation')->count();
         $recentDonations = DB::table('donation')
             ->join('users', 'donation.phone_number', '=', 'users.phone_number')
             ->select('donation.*', 'users.name as user_name', 'users.email') // add any fields you want
             ->orderBy('donation.created_on', 'desc')
             ->take(5)
             ->get();
+        
+        $totalDonationCount = DB::table('donation')
+            ->where('payment_status', 'complete')
+            ->sum('amount') + 
+            DB::table('certificate_donation')
+            ->where('payment_status', 'complete')
+            ->sum('amount');
+
+        $pendingDonation = DB::table('donation')
+            ->where('payment_status', 'pending')
+            ->count() + 
+            DB::table('certificate_donation')
+            ->where('payment_status', 'pending')
+            ->count();
+        
+        $completeDonation = DB::table('donation')
+            ->where('payment_status', 'complete')
+            ->count() + 
+            DB::table('certificate_donation')
+            ->where('payment_status', 'complete')
+            ->count();
 
         // return $recentDonations;
-        return view('admin.dashboard', compact('totalUsers', 'totalDonations', 'totalCelebrations', 'recentDonations'));
+        return view('admin.dashboard', compact('totalUsers', 'totalDonations', 'recentDonations', 'totalDonationCount', 'pendingDonation', 'certificateDonationsCount', 'completeDonation'));
     }
 
     public function users()
@@ -292,4 +313,7 @@ class AdminController extends Controller
         return str_pad(mt_rand(10000000, 99999999), 8, '0', STR_PAD_LEFT);
     }
 
+    public function settings(){
+        return view('admin.settings');
+    }
 }

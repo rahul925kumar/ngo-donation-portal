@@ -107,17 +107,22 @@ Route::prefix('admin')->group(function () {
         Route::post('/users', [AdminController::class, 'addUser'])->name('admin.users.store');
         Route::get('/users/{user_id}/donation/{donation_id}', [RecieptController::class, 'sngleDownloadReciept'])->name('admin.users.receipts.download');
         Route::post('/users/reciepts/bullk-download', [RecieptController::class, 'bulkDownloadReciept'])->name('admin.users.receipts.download.bulk');
+        
         // Donations Management
         Route::get('/donations', [AdminController::class, 'donations'])->name('admin.donations');
         Route::get('/reciepts', [ReceiptsController::class, 'index'])->name('admin.reciepts');
         Route::post('/reciepts', [ReceiptsController::class, 'store'])->name('admin.receipts.store');
         Route::get('/reciepts/delete/{id}', [ReceiptsController::class, 'destroy'])->name('admin.receipts.delete');
+        
         // Celebrations Management
         Route::get('/celebrations', [AdminController::class, 'celebrations'])->name('admin.celebrations');
         Route::delete('/celebrations/{celebration}', [AdminController::class, 'deleteCelebration'])->name('admin.celebrations.delete');
         Route::get('/download-reciept/{id}', [RecieptController::class, 'generateManualRecieptPdf'])->name('admin.receipts.download');
         Route::post('/send-password/{user}', [AdminController::class, 'sendPassword'])->name('admin.sendpassword.user');
-        Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
         Route::post('/change-password', [AdminController::class, 'changePassword'])->name('admin.password');
+
+        // Admin Settings Routes
+        Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'show'])->name('admin.settings.show');
+        Route::put('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'update'])->name('admin.settings.update');
     });
 });
